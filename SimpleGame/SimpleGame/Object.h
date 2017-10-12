@@ -5,8 +5,8 @@ class Vector3;
 class Object
 {
 private:
-	float m_x, m_y, m_z;
 public:
+	float m_x, m_y, m_z;
 	Object();
 	Object(Vector3 v);
 	Object(const Object& object);

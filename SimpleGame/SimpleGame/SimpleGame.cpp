@@ -27,7 +27,7 @@ void RenderScene(void)
 	//g_Renderer->DrawSolidRect(0, 0, 0, 100, 1, 0, 1, 1);
 	Vector3 kakaka(0, 0, 0);
 	object->getPosition(kakaka);
-	g_Renderer->DrawSolidRect(kakaka.x, kakaka.y, kakaka.z, 100, 1, 0, 1, 1);
+	g_Renderer->DrawSolidRect(object->m_x, object->m_y, object->m_z, 100, 1, 0, 1, 1);
 	
 
 	glutSwapBuffers();
