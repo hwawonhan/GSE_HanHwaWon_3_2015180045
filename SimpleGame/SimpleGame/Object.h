@@ -28,6 +28,7 @@ public:
 	Vector3 Direction;
 	Color color;
 	int size;
+	float speed;
 
 	Object();
 	Object(float x, float y, float z);
@@ -37,6 +38,7 @@ public:
 
 	void setDirection(float x, float y, float z);
 	void setColor(float r, float g, float b, float a);
+	void setSpeed(float s);
 	void getPosition(Vector3& v);
 	void Update();
 

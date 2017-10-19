@@ -12,6 +12,7 @@ Object::Object(float x, float y, float z)
 	m.y = y;
 	m.z = z;
 	size = 10;
+	speed = 0.1f;
 }
 
 Object::Object(float x, float y, float z, int _size)
@@ -20,9 +21,10 @@ Object::Object(float x, float y, float z, int _size)
 	m.y = y;
 	m.z = z;
 	size = _size;
+	speed = 0.1f;
 }
 
-Object::Object(Vector3 v) : m(v.x, v.y, v.z), size(10)
+Object::Object(Vector3 v) : m(v.x, v.y, v.z), size(10), speed(0.1f)
 {
 }
 
@@ -30,6 +32,7 @@ Object::Object(Vector3 v, int _size)
 {
 	m = v;
 	size = _size;
+	speed = 0.1f;
 }
 
 
@@ -48,6 +51,11 @@ void Object::setColor(float r, float g, float b, float a)
 	color.a = b;
 }
 
+void Object::setSpeed(float s)
+{
+	speed = s;
+}
+
 void Object::getPosition(Vector3& v)
 {
 	v.x = m.x;
@@ -58,9 +66,9 @@ void Object::getPosition(Vector3& v)
 
 void Object::Update()
 {
-	m.x += Direction.x * 0.01f;
-	m.y += Direction.y * 0.01f;
-	m.z += Direction.z * 0.01f;
+	m.x += Direction.x * speed;
+	m.y += Direction.y * speed;
+	m.z += Direction.z * speed;
 	if (m.x > 250 || m.x < -250)
 		Direction.x *= -1;
 	if (m.y > 250 || m.y < -250)
