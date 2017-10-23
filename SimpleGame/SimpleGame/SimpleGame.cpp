@@ -18,7 +18,6 @@ but WITHOUT ANY WARRANTY.
 
 SceneMgr g_SceneMgr;
 Renderer* g_Renderer;
-
 void RenderScene(void)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

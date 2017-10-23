@@ -1,8 +1,11 @@
 #pragma once
 #include "Object.h"
 #include "Renderer.h"
+#include "Dependencies\glew.h"
+#include "Dependencies\freeglut.h"
 
 #define MAX_OBJECTS_COUNT 50
+
 
 class SceneMgr
 {
@@ -14,6 +17,7 @@ public:
 	void DrawAllObjects(Renderer* m_Renderer);
 	void Update();
 	void setobjectCount(int n);
+	void BoxColistion();
 	void Addobject(int x, int y);
 	int getobjectsCount();
 	~SceneMgr();
