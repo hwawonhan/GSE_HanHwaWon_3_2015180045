@@ -22,14 +22,15 @@ public:
 
 class Object
 {
-private:
 public:
 	Vector3 m;
 	Vector3 Direction;
 	Color color;
 	int size;
 	float speed;
-
+	float lifetime;		//이시간이지나면 사라지게
+	float life;			//목숨갯수
+public:
 	Object();
 	Object(float x, float y, float z);
 	Object(float x, float y, float z, int _size);
@@ -37,10 +38,13 @@ public:
 	Object(Vector3 v, int _size);
 
 	void setDirection(float x, float y, float z);
+	void setSize(int n);
 	void setColor(float r, float g, float b, float a);
 	void setSpeed(float s);
+
 	void getPosition(Vector3& v);
-	void Update();
+	int getsize();
+	void Update(float time);
 
 	~Object();
 };
