@@ -7,10 +7,18 @@ SceneMgr::SceneMgr()
 	m_Renderer = new Renderer(500, 500);
 	if (!m_Renderer->IsInitialized())
 	{
-		std::cout << "Renderer could not be initialized.. \n";
+		cout << "Renderer could not be initialized.. \n";
 	}
 	for (int i = 0; i < MAX_OBJECTS_COUNT; ++i)
 		m_objects[i] = NULL;
+
+	//呼爹积己
+	m_objects[0] = new Object(0, 0, 0, OBJECT_BUILDING);
+	m_objects[0]->setSize(50);
+	m_objects[0]->setDirection(0, 0, 0);
+	m_objects[0]->setColor(1, 0, 1, 1);
+	m_objects[0]->setSpeed(0);
+	m_objects[0]->setLife(5);
 }
 
 SceneMgr::SceneMgr(int w, int h)
@@ -18,10 +26,18 @@ SceneMgr::SceneMgr(int w, int h)
 	m_Renderer = new Renderer(w, h);
 	if (!m_Renderer->IsInitialized())
 	{
-		std::cout << "Renderer could not be initialized.. \n";
+		cout << "Renderer could not be initialized.. \n";
 	}
 	for (int i = 0; i < MAX_OBJECTS_COUNT; ++i)
 		m_objects[i] = NULL;
+
+	//呼爹积己
+	m_objects[0] = new Object(0, 0, 0, OBJECT_BUILDING);
+	m_objects[0]->setSize(50);
+	m_objects[0]->setDirection(0, 0, 0);
+	m_objects[0]->setColor(1, 0, 1, 1);
+	m_objects[0]->setSpeed(0);
+	m_objects[0]->setLife(5);
 }
 
 Object** SceneMgr::GetObjects()
@@ -44,7 +60,7 @@ void SceneMgr::DrawAllObjects()
 void SceneMgr::Update(float time)
 {
 	for (int i = 0; i < MAX_OBJECTS_COUNT; ++i)
-		if(m_objects[i] != NULL)
+		if (m_objects[i] != NULL)
 			m_objects[i]->Update(time);
 	for (int i = 0; i < MAX_OBJECTS_COUNT; ++i)
 	{
@@ -61,13 +77,29 @@ void SceneMgr::Update(float time)
 	{
 		if (m_objects[i] != NULL)
 		{
-			if (m_objects[i]->lifetime < 0)
+			if (m_objects[i]->type != OBJECT_BUILDING)
 			{
-				delete m_objects[i];
-				m_objects[i] = NULL;
+				if (m_objects[i]->getlifetime() < 0)
+				{
+					delete m_objects[i];
+					m_objects[i] = NULL;
+				}
 			}
 		}
 	}
+	if(time == 0.5f)
+	{
+		Object* temp = new Object(0,0,0,OBJECT_BULLET);
+		temp->setSize(10);
+		temp->setDirection((rand() % 3) - 1, (rand() % 3) - 1, 0);
+		temp->setColor(1.0f, 0.0f, 1.0f, 1.0f);
+		temp->setSpeed(300);
+		temp->setLife(20);
+		//BuildingBullet.insert(temp);
+		delete temp;
+	}
+	if (m_objects[0] != NULL)
+		printf("%d\n", m_objects[0]->collisioncount);
 	BoxColistion();
 }
 
@@ -76,39 +108,43 @@ void SceneMgr::BoxColistion()
 {
 	for (int i = 0; i < MAX_OBJECTS_COUNT; ++i)
 	{
-		for (int j = i+1; j < MAX_OBJECTS_COUNT; ++j)
+		for (int j = i + 1; j < MAX_OBJECTS_COUNT; ++j)
 		{
 			if (i != j && m_objects[i] != NULL && m_objects[j] != NULL)
 			{
-				float left1 = m_objects[i]->m.x - (m_objects[i]->size / 2);
-				float right1 = m_objects[i]->m.x + (m_objects[i]->size / 2);
-				float top1 = m_objects[i]->m.y - (m_objects[i]->size / 2);
-				float bottom1 = m_objects[i]->m.y + (m_objects[i]->size / 2);
-
-				float left2 = m_objects[j]->m.x - (m_objects[j]->size / 2);
-				float right2 = m_objects[j]->m.x + (m_objects[j]->size / 2);
-				float top2 = m_objects[j]->m.y - (m_objects[j]->size / 2);
-				float bottom2 = m_objects[j]->m.y + (m_objects[j]->size / 2);
-
-				if (left1 < right2 &&
-					right1 > left2  &&
-					top1 < bottom2 &&
-					bottom1 > top2)
+				if ( (m_objects[j]->type == OBJECT_CHARACTER && m_objects[i]->type == OBJECT_BUILDING))
 				{
-					m_objects[i]->color.g = 0.0f;
-					m_objects[i]->color.b = 0.0f;
-					m_objects[j]->color.g = 0.0f;
-					m_objects[j]->color.b = 0.0f;
-					m_objects[i]->life -= 1;
-					m_objects[j]->life -= 1;
-					return;
-				}
-				else
-				{
-					m_objects[i]->color.g = 1.0f;
-					m_objects[i]->color.b = 1.0f;
-					m_objects[j]->color.g = 1.0f;
-					m_objects[j]->color.b = 1.0f;
+					float left1 = m_objects[i]->m.x - (m_objects[i]->size / 2);
+					float right1 = m_objects[i]->m.x + (m_objects[i]->size / 2);
+					float top1 = m_objects[i]->m.y - (m_objects[i]->size / 2);
+					float bottom1 = m_objects[i]->m.y + (m_objects[i]->size / 2);
+
+					float left2 = m_objects[j]->m.x - (m_objects[j]->size / 2);
+					float right2 = m_objects[j]->m.x + (m_objects[j]->size / 2);
+					float top2 = m_objects[j]->m.y - (m_objects[j]->size / 2);
+					float bottom2 = m_objects[j]->m.y + (m_objects[j]->size / 2);
+
+					if (left1 < right2 && right1 > left2  && top1 < bottom2 && bottom1 > top2)
+					{
+						m_objects[i]->life -= 1;
+						m_objects[j]->life -= 1;
+						if (m_objects[j]->type == 1)
+							m_objects[j]->setColor(1.0f, 0.0f, 0.0f, 1.0f);
+						/*else
+							m_objects[j]->collisioncount += 1;*/
+						if (m_objects[i]->type == 1)
+							m_objects[i]->setColor(1.0f, 0.0f, 0.0f, 1.0f);
+						/*else
+							m_objects[i]->collisioncount += 1;*/
+						return;
+					}
+					else
+					{
+						if (m_objects[i]->type == 1)
+							m_objects[i]->setColor(1.0f, 1.0f, 1.0f, 1.0f);
+						if (m_objects[j]->type == 1)
+							m_objects[j]->setColor(1.0f, 1.0f, 1.0f, 1.0f);
+					}
 				}
 			}
 		}
@@ -121,15 +157,15 @@ void SceneMgr::Addobject(int x, int y)
 	{
 		if (m_objects[i] == NULL)
 		{
-			m_objects[i] = new Object(x - 250, 250 - y, 0);
+			m_objects[i] = new Object(x - 250, 250 - y, 0, OBJECT_CHARACTER);
 			m_objects[i]->setSize((rand() % 10) + 10);
 			m_objects[i]->setDirection((rand() % 3) - 1, (rand() % 3) - 1, 0);
 			m_objects[i]->setColor(1, 1, 1, 1);
-			m_objects[i]->setSpeed(((rand() % 5) + 1) * 10);
+			m_objects[i]->setSpeed(100);
 			break;
 		}
 	}
-	
+
 }
 
 

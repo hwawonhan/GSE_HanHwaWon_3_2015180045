@@ -6,37 +6,43 @@ Object::Object() : m(0,0,0), size(10)
 {
 }
 
-Object::Object(float x, float y, float z)
+Object::Object(float x, float y, float z, int _type)
 {
 	m.x = x;
 	m.y = y;
 	m.z = z;
 	size = 10;
 	speed = 0.1f;
-	life = 50;
+	life = 1;
 	lifetime = 10;
+	type = _type;
+	collisioncount = 0;
 }
 
-Object::Object(float x, float y, float z, int _size)
+Object::Object(float x, float y, float z, int _size, int _type)
 {
 	m.x = x;
 	m.y = y;
 	m.z = z;
 	size = _size;
 	speed = 0.1f;
-	life = 50;
+	life = 1;
 	lifetime = 10;
+	type = _type;
+	collisioncount = 0;
 }
 
-Object::Object(Vector3 v) : m(v.x, v.y, v.z), size(10), speed(0.1f)
+Object::Object(Vector3 v, int _type) : m(v.x, v.y, v.z), size(10), speed(0.1f)
 {
+	type = _type;
 }
 
-Object::Object(Vector3 v, int _size)
+Object::Object(Vector3 v, int _size, int _type)
 {
 	m = v;
 	size = _size;
 	speed = 0.1f;
+	type = _type;
 }
 
 
@@ -65,6 +71,16 @@ void Object::setSpeed(float s)
 	speed = s;
 }
 
+void Object::setLifeTime(float time)
+{
+	lifetime = time;
+}
+
+void Object::setLife(float _life)
+{
+	life = _life*2 - 1;
+}
+
 void Object::getPosition(Vector3& v)
 {
 	v.x = m.x;
@@ -75,6 +91,11 @@ void Object::getPosition(Vector3& v)
 int Object::getsize()
 {
 	return size;
+}
+
+float Object::getlifetime()
+{
+	return lifetime;
 }
 
 

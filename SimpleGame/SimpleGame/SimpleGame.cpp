@@ -24,11 +24,9 @@ void RenderScene(void)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(0.0f, 0.3f, 0.3f, 1.0f);
 	g_SceneMgr->DrawAllObjects();
-	//printf("%f\n", (float)p / 1000.0f);
 	DWORD p = timeGetTime() - timer;
 	timer = timeGetTime();
 	g_SceneMgr->Update((float)(p/1000.0f));
-	printf("%ld\n", p);
 	glutSwapBuffers();
 }
 
