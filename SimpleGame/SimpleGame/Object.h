@@ -33,6 +33,7 @@ public:
 	int type;
 	int collisioncount;
 	int Damage;
+	int Isme;
 public:
 	Object();
 	Object(float x, float y, float z, int _tpye);

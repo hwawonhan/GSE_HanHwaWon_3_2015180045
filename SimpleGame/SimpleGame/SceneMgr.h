@@ -8,6 +8,7 @@
 using namespace std;
 #define MAX_OBJECTS_COUNT 11
 #define MAX_OBJECTS_CHARACTER_COUNT 10
+#define MAX_BULLET_COUNT 200
 
 enum objecttype {
 	OBJECT_BUILDING,
@@ -22,10 +23,11 @@ class SceneMgr
 {
 private:
 	Renderer* m_Renderer;
-	float buildingbullettime;
+	float TimeCount;
+	unsigned int m_texCharacter;
 public:
 	Object* m_objects[MAX_OBJECTS_COUNT];
-	Object* BuildingBullet[100];
+	Object* Bullet[MAX_BULLET_COUNT];
 public:
 	SceneMgr();
 	SceneMgr(int w, int h);

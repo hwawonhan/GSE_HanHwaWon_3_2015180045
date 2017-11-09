@@ -65,7 +65,7 @@ void Object::setColor(float r, float g, float b, float a)
 	color.r = r;
 	color.g = g;
 	color.b = b;
-	color.a = b;
+	color.a = a;
 }
 
 void Object::setSpeed(float s)
@@ -107,10 +107,10 @@ void Object::Update(float time)
 	m.y += Direction.y * speed* time;
 	m.z += Direction.z * speed* time;
 	lifetime -= time;
-	if (m.x > 250 || m.x < -250)
+	/*if (m.x + (size / 2) > 250 || m.x - (size / 2) < -250)
 		Direction.x *= -1;
-	if (m.y > 250 || m.y < -250)
-		Direction.y *= -1;
+	if (m.y + (size / 2) > 250 || m.y - (size / 2) < -250)
+		Direction.y *= -1;*/
 }
 
 
