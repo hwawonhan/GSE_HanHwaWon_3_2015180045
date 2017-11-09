@@ -130,6 +130,7 @@ void SceneMgr::Update(float time)
 				BuildingBullet[i]->setColor(1, 0, 1, 1);
 				BuildingBullet[i]->setSpeed(100);
 				BuildingBullet[i]->lifetime = 10;
+				BuildingBullet[i]->Damage = 1;
 				break;
 			}
 		}
@@ -202,7 +203,7 @@ void SceneMgr::BoxColistion()
 
 					if (left1 < right2 && right1 > left2  && top1 < bottom2 && bottom1 > top2)
 					{
-						m_objects[i]->life -= 1;
+						m_objects[i]->life -= BuildingBullet[j]->Damage;
 						delete BuildingBullet[j];
 						BuildingBullet[j] = NULL;
 						return;

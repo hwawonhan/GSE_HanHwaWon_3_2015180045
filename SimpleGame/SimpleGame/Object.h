@@ -32,6 +32,7 @@ public:
 	float life;			//¸ñ¼û°¹¼ö
 	int type;
 	int collisioncount;
+	int Damage;
 public:
 	Object();
 	Object(float x, float y, float z, int _tpye);
