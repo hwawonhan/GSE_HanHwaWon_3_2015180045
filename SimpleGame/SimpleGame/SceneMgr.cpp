@@ -5,13 +5,15 @@
 SceneMgr::SceneMgr()
 {
 	m_Renderer = new Renderer(500, 500);
+	buildingbullettime = 0;
 	if (!m_Renderer->IsInitialized())
 	{
 		cout << "Renderer could not be initialized.. \n";
 	}
 	for (int i = 0; i < MAX_OBJECTS_COUNT; ++i)
 		m_objects[i] = NULL;
-
+	for (int i = 0; i < 100; ++i)
+		BuildingBullet[i] = NULL;
 	//ºôµù»ý¼º
 	m_objects[0] = new Object(0, 0, 0, OBJECT_BUILDING);
 	m_objects[0]->setSize(50);
@@ -24,13 +26,15 @@ SceneMgr::SceneMgr()
 SceneMgr::SceneMgr(int w, int h)
 {
 	m_Renderer = new Renderer(w, h);
+	buildingbullettime = 0;
 	if (!m_Renderer->IsInitialized())
 	{
 		cout << "Renderer could not be initialized.. \n";
 	}
 	for (int i = 0; i < MAX_OBJECTS_COUNT; ++i)
 		m_objects[i] = NULL;
-
+	for (int i = 0; i < 100; ++i)
+		BuildingBullet[i] = NULL;
 	//ºôµù»ý¼º
 	m_objects[0] = new Object(0, 0, 0, OBJECT_BUILDING);
 	m_objects[0]->setSize(50);
@@ -55,6 +59,12 @@ void SceneMgr::DrawAllObjects()
 				m_objects[i]->color.r, m_objects[i]->color.g, m_objects[i]->color.b, m_objects[i]->color.a);
 		}
 	}
+	for (int i = 0; i < 100; ++i)
+	{
+		if(BuildingBullet[i] != NULL)
+			m_Renderer->DrawSolidRect(BuildingBullet[i]->m.x, BuildingBullet[i]->m.y, BuildingBullet[i]->m.z, BuildingBullet[i]->size,
+				BuildingBullet[i]->color.r, BuildingBullet[i]->color.g, BuildingBullet[i]->color.b, BuildingBullet[i]->color.a);
+	}
 }
 
 void SceneMgr::Update(float time)
@@ -62,6 +72,11 @@ void SceneMgr::Update(float time)
 	for (int i = 0; i < MAX_OBJECTS_COUNT; ++i)
 		if (m_objects[i] != NULL)
 			m_objects[i]->Update(time);
+	for (int i =0; i < 100; ++i )
+	{
+		if(BuildingBullet[i] != NULL)
+		BuildingBullet[i]->Update(time);
+	}
 	for (int i = 0; i < MAX_OBJECTS_COUNT; ++i)
 	{
 		if (m_objects[i] != NULL)
@@ -87,16 +102,38 @@ void SceneMgr::Update(float time)
 			}
 		}
 	}
-	if(time == 0.5f)
+	//ºôµù ÃÑ¾Ë ½Ã°£ »èÁ¦
+	for (int i = 0; i < 100; ++i)
 	{
-		Object* temp = new Object(0,0,0,OBJECT_BULLET);
-		temp->setSize(10);
-		temp->setDirection((rand() % 3) - 1, (rand() % 3) - 1, 0);
-		temp->setColor(1.0f, 0.0f, 1.0f, 1.0f);
-		temp->setSpeed(300);
-		temp->setLife(20);
-		//BuildingBullet.insert(temp);
-		delete temp;
+		if (BuildingBullet[i] != NULL)
+		{
+			if (BuildingBullet[i]->getlifetime() < 0)
+			{
+				delete BuildingBullet[i];
+				BuildingBullet[i] = NULL;
+				printf("ÃÑ¾Ë »èÁ¦\n");
+			}
+		}
+	}
+
+	//ºôµùÃÑ¾Ë »ý¼º
+	buildingbullettime += time;
+	if(buildingbullettime > 0.5f)
+	{
+		for (int i = 0; i < 100; ++i)
+		{
+			if (BuildingBullet[i] == NULL)
+			{
+				BuildingBullet[i] = new Object(0, 0, 0, OBJECT_BULLET);
+				BuildingBullet[i]->setSize((rand() % 10) + 10);
+				BuildingBullet[i]->setDirection((rand() % 3) - 1, (rand() % 3) - 1, 0);
+				BuildingBullet[i]->setColor(1, 0, 1, 1);
+				BuildingBullet[i]->setSpeed(100);
+				BuildingBullet[i]->lifetime = 10;
+				break;
+			}
+		}
+		buildingbullettime = 0;
 	}
 	if (m_objects[0] != NULL)
 		printf("%d\n", m_objects[0]->collisioncount);
@@ -130,12 +167,8 @@ void SceneMgr::BoxColistion()
 						m_objects[j]->life -= 1;
 						if (m_objects[j]->type == 1)
 							m_objects[j]->setColor(1.0f, 0.0f, 0.0f, 1.0f);
-						/*else
-							m_objects[j]->collisioncount += 1;*/
 						if (m_objects[i]->type == 1)
 							m_objects[i]->setColor(1.0f, 0.0f, 0.0f, 1.0f);
-						/*else
-							m_objects[i]->collisioncount += 1;*/
 						return;
 					}
 					else
@@ -144,6 +177,42 @@ void SceneMgr::BoxColistion()
 							m_objects[i]->setColor(1.0f, 1.0f, 1.0f, 1.0f);
 						if (m_objects[j]->type == 1)
 							m_objects[j]->setColor(1.0f, 1.0f, 1.0f, 1.0f);
+					}
+				}
+			}
+		}
+	}
+	for (int i = 0; i < MAX_OBJECTS_COUNT; ++i)
+	{
+		for (int j = 0; j < 100; ++j)
+		{
+			if (m_objects[i] != NULL && BuildingBullet[j] != NULL)
+			{
+				if (m_objects[i]->type == OBJECT_CHARACTER)
+				{
+					float left1 = m_objects[i]->m.x - (m_objects[i]->size / 2);
+					float right1 = m_objects[i]->m.x + (m_objects[i]->size / 2);
+					float top1 = m_objects[i]->m.y - (m_objects[i]->size / 2);
+					float bottom1 = m_objects[i]->m.y + (m_objects[i]->size / 2);
+
+					float left2 = BuildingBullet[j]->m.x - (BuildingBullet[j]->size / 2);
+					float right2 = BuildingBullet[j]->m.x + (BuildingBullet[j]->size / 2);
+					float top2 = BuildingBullet[j]->m.y - (BuildingBullet[j]->size / 2);
+					float bottom2 = BuildingBullet[j]->m.y + (BuildingBullet[j]->size / 2);
+
+					if (left1 < right2 && right1 > left2  && top1 < bottom2 && bottom1 > top2)
+					{
+						m_objects[i]->life -= 1;
+						delete BuildingBullet[j];
+						BuildingBullet[j] = NULL;
+						return;
+					}
+					else
+					{
+						if (m_objects[i]->type == 1)
+							m_objects[i]->setColor(1.0f, 1.0f, 1.0f, 1.0f);
+						if (BuildingBullet[j]->type == 1)
+							BuildingBullet[j]->setColor(1.0f, 1.0f, 1.0f, 1.0f);
 					}
 				}
 			}

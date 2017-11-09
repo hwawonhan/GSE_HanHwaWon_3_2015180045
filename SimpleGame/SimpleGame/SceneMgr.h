@@ -22,9 +22,10 @@ class SceneMgr
 {
 private:
 	Renderer* m_Renderer;
-	list<Object*>BuildingBullet;
+	float buildingbullettime;
 public:
 	Object* m_objects[MAX_OBJECTS_COUNT];
+	Object* BuildingBullet[100];
 public:
 	SceneMgr();
 	SceneMgr(int w, int h);
