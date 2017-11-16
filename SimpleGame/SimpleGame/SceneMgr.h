@@ -6,9 +6,15 @@
 #include <list>
 
 using namespace std;
-#define MAX_OBJECTS_COUNT 11
+#define MAX_OBJECTS_COUNT 26
 #define MAX_OBJECTS_CHARACTER_COUNT 10
 #define MAX_BULLET_COUNT 200
+
+enum TEAMNUMBER
+{
+	BLACK = 0,
+	WHITE = 1
+};
 
 enum objecttype {
 	OBJECT_BUILDING,
@@ -23,7 +29,10 @@ class SceneMgr
 {
 private:
 	Renderer* m_Renderer;
-	float TimeCount;
+	float BuildingTimeCount;
+	float EnemySpawnTimeCount;
+	float ArrowSpawnTimeCount;
+	unsigned int m_texEnemy;
 	unsigned int m_texCharacter;
 public:
 	Object* m_objects[MAX_OBJECTS_COUNT];

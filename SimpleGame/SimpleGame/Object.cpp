@@ -108,9 +108,13 @@ void Object::Update(float time)
 	m.z += Direction.z * speed* time;
 	lifetime -= time;
 	/*if (m.x + (size / 2) > 250 || m.x - (size / 2) < -250)
-		Direction.x *= -1;
+	{
+		lifetime = 0;
+	}
 	if (m.y + (size / 2) > 250 || m.y - (size / 2) < -250)
-		Direction.y *= -1;*/
+	{
+		lifetime = 0;
+	}*/
 }
 
 
