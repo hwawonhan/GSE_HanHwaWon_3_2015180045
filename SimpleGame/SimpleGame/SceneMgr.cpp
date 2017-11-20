@@ -267,7 +267,7 @@ void SceneMgr::Update(float time)
 							Bullet[i] = new Object(m_objects[j]->m.x - 10, m_objects[j]->m.y - 10, 0, OBJECT_ARROW);
 							Bullet[i]->setColor(1, 1, 0, 1);
 							Bullet[i]->setSize(2);
-							Bullet[i]->setDirection((rand() % 3) - 1, -1, 0);
+							Bullet[i]->setDirection((rand() % 3) - 1, 1, 0);
 							Bullet[i]->setSpeed(100);
 							Bullet[i]->lifetime = 10;
 							Bullet[i]->life = 10;
@@ -282,7 +282,7 @@ void SceneMgr::Update(float time)
 							Bullet[i] = new Object(m_objects[j]->m.x - 10, m_objects[j]->m.y - 10, 0, OBJECT_ARROW);
 							Bullet[i]->setColor(0.5f, 0.2f, 0.7f, 1.0f);
 							Bullet[i]->setSize(2);
-							Bullet[i]->setDirection((rand() % 3) - 1, 1, 0);
+							Bullet[i]->setDirection((rand() % 3) - 1, -1, 0);
 							Bullet[i]->setSpeed(100);
 							Bullet[i]->lifetime = 10;
 							Bullet[i]->life = 10;
@@ -325,6 +325,7 @@ void SceneMgr::Update(float time)
 		{
 			if (Bullet[i]->m.y + (Bullet[i]->size / 2) > 400 || Bullet[i]->m.y - (Bullet[i]->size / 2) < -400)
 			{
+				cout << Bullet[i]->TeamNum << " »èÁ¦" << endl;
 				delete Bullet[i];
 				Bullet[i] = NULL;
 			}
@@ -507,7 +508,7 @@ void SceneMgr::Addobject(int x, int y)
 					m_objects[i]->setSize(10);
 					m_objects[i]->setDirection((rand() % 3) - 1, 1.0f, 0);
 					m_objects[i]->setColor(0.0f, 0.0f, 1.0f, 1);
-					m_objects[i]->setSpeed(100);
+					m_objects[i]->setSpeed(300);
 					m_objects[i]->life = 10;
 					m_objects[i]->TeamNum = WHITE;
 					PlayerCharacterSpawnCount -= 1;
