@@ -495,9 +495,9 @@ BOOL SceneMgr::ObjectsColistion(Object * a, Object * b)
 
 void SceneMgr::Addobject(int x, int y)
 {
-	//if (PlayerCharacterSpawnCount > 0)
+	if (PlayerCharacterSpawnCount > 0)
 	{
-		//if (y < 0 && y > -400)
+		if (y < 0 && y > -400)
 		{
 			for (int i = 0; i < MAX_OBJECTS_COUNT; ++i)
 			{
