@@ -24,16 +24,16 @@ enum objecttype {
 };
 
 class Renderer;
-
 class SceneMgr
 {
 private:
 	Renderer* m_Renderer;
-	float BuildingTimeCount;
-	float EnemySpawnTimeCount;
-	float ArrowSpawnTimeCount;
+	float BuildingTime;
+	float EnemySpawnTime;
 	unsigned int m_texEnemy;
 	unsigned int m_texCharacter;
+	int PlayerCharacterSpawnCount;
+	float PlayerCharacterSpawnTime;
 public:
 	Object* m_objects[MAX_OBJECTS_COUNT];
 	Object* Bullet[MAX_BULLET_COUNT];
@@ -43,7 +43,8 @@ public:
 	Object** GetObjects();
 	void DrawAllObjects();
 	void Update(float time);
-	void BoxColistion();
+	void Colistion();
+	BOOL ObjectsColistion(Object* a, Object* b);
 	void Addobject(int x, int y);
 	~SceneMgr();
 };
