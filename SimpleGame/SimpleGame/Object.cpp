@@ -82,7 +82,8 @@ void Object::setLifeTime(float time)
 
 void Object::setLife(float _life)
 {
-	life = _life*2 - 1;
+	//life = _life*2 - 1;
+	life = _life;
 }
 
 void Object::getPosition(Vector3& v)

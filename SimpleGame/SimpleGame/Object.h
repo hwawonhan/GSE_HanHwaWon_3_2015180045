@@ -6,6 +6,7 @@ struct Color
 };
 
 
+
 class Vector3
 {
 public:

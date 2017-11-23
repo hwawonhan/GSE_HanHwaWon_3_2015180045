@@ -10,10 +10,12 @@ using namespace std;
 #define MAX_OBJECTS_CHARACTER_COUNT 10
 #define MAX_BULLET_COUNT 200
 
+
+
 enum TEAMNUMBER
 {
 	BLACK = 0,
-	WHITE = 1
+	WHITE = 1,
 };
 
 enum objecttype {
