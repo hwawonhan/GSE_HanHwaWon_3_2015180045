@@ -115,6 +115,10 @@ void Object::Update(float time)
 	{
 		Direction.x *= -1;
 	}
+	if (m.y + (size / 2) > 400 || m.y - (size / 2) < -400)
+	{
+		Direction.y *= -1;
+	}
 }
 
 

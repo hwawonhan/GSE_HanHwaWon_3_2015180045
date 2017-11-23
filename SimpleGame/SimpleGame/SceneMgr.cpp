@@ -109,16 +109,14 @@ void SceneMgr::DrawAllObjects()
 					m_Renderer->DrawTexturedRect(m_objects[i]->m.x, m_objects[i]->m.y, m_objects[i]->m.z, m_objects[i]->size,
 						1, 1, 1, 1, m_texCharacter, 0.1f);
 					m_Renderer->DrawSolidRectGauge(m_objects[i]->m.x, m_objects[i]->m.y + 55, m_objects[i]->m.z, 100, 5, 0, 0, 1, 1, m_objects[i]->life / 500.0f, 0.1f);
-					cout << m_objects[i]->life << endl;
 				}
 			}
 			else
 			{
 				m_Renderer->DrawSolidRect(m_objects[i]->m.x, m_objects[i]->m.y, m_objects[i]->m.z, m_objects[i]->size,
 					m_objects[i]->color.r, m_objects[i]->color.g, m_objects[i]->color.b, m_objects[i]->color.a, 0.2f);
-				m_Renderer->DrawSolidRectGauge(m_objects[i]->m.x, m_objects[i]->m.y + 10, m_objects[i]->m.z, 10, 5, 
+				m_Renderer->DrawSolidRectGauge(m_objects[i]->m.x, m_objects[i]->m.y + 20, m_objects[i]->m.z, 30, 5, 
 					m_objects[i]->color.r, m_objects[i]->color.g, m_objects[i]->color.b, m_objects[i]->color.a, m_objects[i]->life / 10.0f, 0.2f);
-				cout << m_objects[i]->life << endl;
 			}
 		}
 	}
@@ -251,14 +249,14 @@ void SceneMgr::Update(float time)
 
 	//적생성
 	EnemySpawnTime += time;
-	if (EnemySpawnTime > 0.5f)
+	if (EnemySpawnTime > 3.0f)
 	{
 		for (int i = 0; i < MAX_OBJECTS_COUNT; ++i)
 		{
 			if (m_objects[i] == NULL)
 			{
 				m_objects[i] = new Object((rand() % 500) - 250, 400 - (rand() % 400), 0, OBJECT_CHARACTER);
-				m_objects[i]->setSize(10);
+				m_objects[i]->setSize(30);
 				m_objects[i]->setDirection((rand() % 3) - 1, -1, 0);
 				if (m_objects[i] != NULL)
 					m_objects[i]->setColor(1, 0, 0, 1);
@@ -326,18 +324,18 @@ void SceneMgr::Update(float time)
 		PlayerCharacterSpawnTime = 0.0f;
 	}
 
-	//y 영역 화면에서 넘어갈 시 Character삭제
-	for (int i = 0; i < MAX_OBJECTS_COUNT; ++i)
-	{
-		if (m_objects[i] != NULL)
-		{
-			if (m_objects[i]->m.y + (m_objects[i]->size / 2) > 400 || m_objects[i]->m.y - (m_objects[i]->size / 2) < -400)
-			{
-				delete m_objects[i];
-				m_objects[i] = NULL;
-			}
-		}
-	}
+	////y 영역 화면에서 넘어갈 시 Character삭제
+	//for (int i = 0; i < MAX_OBJECTS_COUNT; ++i)
+	//{
+	//	if (m_objects[i] != NULL)
+	//	{
+	//		if (m_objects[i]->m.y + (m_objects[i]->size / 2) > 400 || m_objects[i]->m.y - (m_objects[i]->size / 2) < -400)
+	//		{
+	//			delete m_objects[i];
+	//			m_objects[i] = NULL;
+	//		}
+	//	}
+	//}
 
 	//화면에서 넘어갈 시 Bullet, Arrow 삭제
 	for (int i = 0; i < MAX_BULLET_COUNT; ++i)
@@ -395,8 +393,6 @@ void SceneMgr::Colistion()
 						if (ObjectsColistion(m_objects[i], Bullet[j]))
 						{
 							m_objects[i]->life -= Bullet[j]->life;
-							if (m_objects[j] != NULL)
-								m_objects[j]->setColor(0.0f, 0.0f, 0.0f, 1.0f);
 							delete Bullet[j];
 							Bullet[j] = NULL;
 							break;
@@ -430,8 +426,6 @@ void SceneMgr::Colistion()
 						if (ObjectsColistion(m_objects[i], Bullet[j]))
 						{
 							m_objects[i]->life -= Bullet[j]->life;
-							if (m_objects[j] != NULL)
-								m_objects[j]->setColor(0.0f, 0.0f, 0.0f, 1.0f);
 							delete Bullet[j];
 							Bullet[j] = NULL;
 							break;
@@ -527,7 +521,7 @@ void SceneMgr::Addobject(int x, int y)
 				if (m_objects[i] == NULL)
 				{
 					m_objects[i] = new Object(x, y, 0, OBJECT_CHARACTER);
-					m_objects[i]->setSize(10);
+					m_objects[i]->setSize(30);
 					m_objects[i]->setDirection((rand() % 3) - 1, 1.0f, 0);
 					if (m_objects[i] != NULL)
 						m_objects[i]->setColor(0.0f, 0.0f, 1.0f, 1);
