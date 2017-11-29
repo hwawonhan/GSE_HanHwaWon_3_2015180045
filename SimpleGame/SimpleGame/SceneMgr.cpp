@@ -15,32 +15,13 @@ SceneMgr::SceneMgr()
 	for (int i = 0; i < MAX_BULLET_COUNT; ++i)
 		Bullet[i] = NULL;
 
-	m_texCharacter = m_Renderer->CreatePngTexture("./Textures/PNGs/Mybuilding.png");
-	m_texEnemy = m_Renderer->CreatePngTexture("./Textures/PNGs/building.png");
+	m_texPlayerBuilding = m_Renderer->CreatePngTexture("./Textures/PNGs/PlayerBuilding.png");
+	m_texEnemyBuilding = m_Renderer->CreatePngTexture("./Textures/PNGs/EnemyBuliding.png");
+	m_texBackGround = m_Renderer->CreatePngTexture("./Textures/PNGs/Background.png");
+	m_texPlayerCharacter = m_Renderer->CreatePngTexture("./Textures/PNGs/PlayerChar.png");
+	m_texEnemyCharacter = m_Renderer->CreatePngTexture("./Textures/PNGs/EnemyChar.png");
 	PlayerCharacterSpawnCount = 1;
-	//빌딩생성
-	for (int i = 0; i < 3; ++i)
-	{
-		m_objects[i] = new Object(150 * i - 150, 300, 0, OBJECT_BUILDING);
-		m_objects[i]->setSize(100);
-		m_objects[i]->setDirection(0, 0, 0);
-		if(m_objects[i] != NULL)
-			m_objects[i]->setColor(1, 1, 1, 1);
-		m_objects[i]->setSpeed(0);
-		m_objects[i]->setLife(500);
-		m_objects[i]->TeamNum = BLACK;
-	}
-	for (int i = 3; i < 6; ++i)
-	{
-		m_objects[i] = new Object(150 * (i - 3) - 150, -300, 0, OBJECT_BUILDING);
-		m_objects[i]->setSize(100);
-		m_objects[i]->setDirection(0, 0, 0);
-		if (m_objects[i] != NULL)
-			m_objects[i]->setColor(1, 1, 1, 1);
-		m_objects[i]->setSpeed(0);
-		m_objects[i]->setLife(500);
-		m_objects[i]->TeamNum = WHITE;
-	}
+	CreateBuliding();
 }
 
 SceneMgr::SceneMgr(int w, int h)
@@ -56,33 +37,74 @@ SceneMgr::SceneMgr(int w, int h)
 	for (int i = 0; i < MAX_BULLET_COUNT; ++i)
 		Bullet[i] = NULL;
 
-	m_texCharacter = m_Renderer->CreatePngTexture("./Textures/PNGs/Mybuilding.png");
-	m_texEnemy = m_Renderer->CreatePngTexture("./Textures/PNGs/building.png");
+	m_texPlayerBuilding = m_Renderer->CreatePngTexture("./Textures/PNGs/PlayerBuilding.png");
+	m_texEnemyBuilding = m_Renderer->CreatePngTexture("./Textures/PNGs/EnemyBuliding.png");
+	m_texBackGround = m_Renderer->CreatePngTexture("./Textures/PNGs/Background.png");
+	m_texPlayerCharacter = m_Renderer->CreatePngTexture("./Textures/PNGs/PlayerChar.png");
+	m_texEnemyCharacter = m_Renderer->CreatePngTexture("./Textures/PNGs/EnemyChar.png");
 	PlayerCharacterSpawnCount = 1;
 
-	//빌딩생성
-	for (int i = 0; i < 3; ++i)
-	{
-		m_objects[i] = new Object(150 * i - 150, 300, 0, OBJECT_BUILDING);
-		m_objects[i]->setSize(100);
-		m_objects[i]->setDirection(0, 0, 0);
-		if (m_objects[i] != NULL)
-			m_objects[i]->setColor(1, 1, 1, 1);
-		m_objects[i]->setSpeed(0);
-		m_objects[i]->setLife(500);
-		m_objects[i]->TeamNum = BLACK;
-	}
-	for (int i = 3; i < 6; ++i)
-	{
-		m_objects[i] = new Object(150 * (i - 3) - 150, -300, 0, OBJECT_BUILDING);
-		m_objects[i]->setSize(100);
-		m_objects[i]->setDirection(0, 0, 0);
-		if (m_objects[i] != NULL)
-			m_objects[i]->setColor(1, 1, 1, 1);
-		m_objects[i]->setSpeed(0);
-		m_objects[i]->setLife(500);
-		m_objects[i]->TeamNum = WHITE;
-	}
+	CreateBuliding();
+}
+
+void SceneMgr::CreateBuliding()
+{
+	m_objects[0] = new Object(-160, 230, 0, OBJECT_BUILDING);
+	m_objects[0]->setSize(80);
+	m_objects[0]->setDirection(0, 0, 0);
+	if (m_objects[0] != NULL)
+		m_objects[0]->setColor(1, 1, 1, 1);
+	m_objects[0]->setSpeed(0);
+	m_objects[0]->setLife(500);
+	m_objects[0]->TeamNum = BLACK;
+
+	m_objects[1] = new Object(0, 300, 0, OBJECT_BUILDING);
+	m_objects[1]->setSize(90);
+	m_objects[1]->setDirection(0, 0, 0);
+	if (m_objects[1] != NULL)
+		m_objects[1]->setColor(1, 1, 1, 1);
+	m_objects[1]->setSpeed(0);
+	m_objects[1]->setLife(500);
+	m_objects[1]->TeamNum = BLACK;
+
+	m_objects[2] = new Object(155, 230, 0, OBJECT_BUILDING);
+	m_objects[2]->setSize(80);
+	m_objects[2]->setDirection(0, 0, 0);
+	if (m_objects[2] != NULL)
+		m_objects[2]->setColor(1, 1, 1, 1);
+	m_objects[2]->setSpeed(0);
+	m_objects[2]->setLife(500);
+	m_objects[2]->TeamNum = BLACK;
+
+	
+	m_objects[3] = new Object(-160, -200, 0, OBJECT_BUILDING);
+	m_objects[3]->setSize(80);
+	m_objects[3]->setDirection(0, 0, 0);
+	if (m_objects[3] != NULL)
+		m_objects[3]->setColor(1, 1, 1, 1);
+	m_objects[3]->setSpeed(0);
+	m_objects[3]->setLife(500);
+	m_objects[3]->TeamNum = WHITE;
+
+	m_objects[4] = new Object(-2, -270, 0, OBJECT_BUILDING);
+	m_objects[4]->setSize(90);
+	m_objects[4]->setDirection(0, 0, 0);
+	if (m_objects[4] != NULL)
+		m_objects[4]->setColor(1, 1, 1, 1);
+	m_objects[4]->setSpeed(0);
+	m_objects[4]->setLife(500);
+	m_objects[4]->TeamNum = WHITE;
+
+	m_objects[5] = new Object(155, -200, 0, OBJECT_BUILDING);
+	m_objects[5]->setSize(80);
+	m_objects[5]->setDirection(0, 0, 0);
+	if (m_objects[5] != NULL)
+		m_objects[5]->setColor(1, 1, 1, 1);
+	m_objects[5]->setSpeed(0);
+	m_objects[5]->setLife(500);
+	m_objects[5]->TeamNum = WHITE;
+
+	
 }
 
 Object** SceneMgr::GetObjects()
@@ -92,6 +114,8 @@ Object** SceneMgr::GetObjects()
 
 void SceneMgr::DrawAllObjects()
 {
+	m_Renderer->DrawTexturedRect(0, 0, 0, 800,
+		1, 1, 1, 1, m_texBackGround, 0.5f);
 	for (int i = 0; i < MAX_OBJECTS_COUNT; ++i)
 	{
 		if (m_objects[i] != NULL)
@@ -101,39 +125,37 @@ void SceneMgr::DrawAllObjects()
 				if (m_objects[i]->TeamNum == BLACK)
 				{
 					m_Renderer->DrawTexturedRect(m_objects[i]->m.x, m_objects[i]->m.y, m_objects[i]->m.z, m_objects[i]->size,
-						1, 1, 1, 1, m_texEnemy, 0.1f);
-					m_Renderer->DrawSolidRectGauge(m_objects[i]->m.x, m_objects[i]->m.y + 55, m_objects[i]->m.z, 100, 5, 1, 0, 0, 1, m_objects[i]->life/500.0f, 0.1f);
+						m_objects[i]->color.r, m_objects[i]->color.g, m_objects[i]->color.b, 1.0f, m_texEnemyBuilding, 0.1f);
+					m_Renderer->DrawSolidRectGauge(m_objects[i]->m.x, m_objects[i]->m.y + m_objects[i]->size/2 + 5, m_objects[i]->m.z, m_objects[i]->size, 5, 1, 0, 0, 1, m_objects[i]->life/500.0f, 0.1f);
 				}
 				else
 				{
 					m_Renderer->DrawTexturedRect(m_objects[i]->m.x, m_objects[i]->m.y, m_objects[i]->m.z, m_objects[i]->size,
-						1, 1, 1, 1, m_texCharacter, 0.1f);
-					m_Renderer->DrawSolidRectGauge(m_objects[i]->m.x, m_objects[i]->m.y + 55, m_objects[i]->m.z, 100, 5, 0, 0, 1, 1, m_objects[i]->life / 500.0f, 0.1f);
+						m_objects[i]->color.r, m_objects[i]->color.g, m_objects[i]->color.b, 1.0f, m_texPlayerBuilding, 0.1f);
+					m_Renderer->DrawSolidRectGauge(m_objects[i]->m.x, m_objects[i]->m.y + m_objects[i]->size/2 + 5, m_objects[i]->m.z, m_objects[i]->size, 5, 0, 0, 1, 1, m_objects[i]->life / 500.0f, 0.1f);
 				}
 			}
 			else
 			{
-				m_Renderer->DrawSolidRect(m_objects[i]->m.x, m_objects[i]->m.y, m_objects[i]->m.z, m_objects[i]->size,
-					m_objects[i]->color.r, m_objects[i]->color.g, m_objects[i]->color.b, m_objects[i]->color.a, 0.2f);
+				if(m_objects[i]->TeamNum == BLACK)
+					m_Renderer->DrawTexturedRect(m_objects[i]->m.x, m_objects[i]->m.y, m_objects[i]->m.z, m_objects[i]->size,
+						1.0f, 1.0f, 1.0f, 1.0f, m_texEnemyCharacter, 0.2f);
+				else
+					m_Renderer->DrawTexturedRect(m_objects[i]->m.x, m_objects[i]->m.y, m_objects[i]->m.z, m_objects[i]->size,
+						1.0f, 1.0f, 1.0f, 1.0f, m_texPlayerCharacter, 0.2f);
 				m_Renderer->DrawSolidRectGauge(m_objects[i]->m.x, m_objects[i]->m.y + 20, m_objects[i]->m.z, 30, 5, 
 					m_objects[i]->color.r, m_objects[i]->color.g, m_objects[i]->color.b, m_objects[i]->color.a, m_objects[i]->life / 10.0f, 0.2f);
 			}
 		}
 	}
+
+	//총알
 	for (int i = 0; i < MAX_BULLET_COUNT; ++i)
 	{
 		if (Bullet[i] != NULL)
 		{
-			if (Bullet[i]->type == OBJECT_BULLET)
-			{
-				m_Renderer->DrawSolidRect(Bullet[i]->m.x, Bullet[i]->m.y, Bullet[i]->m.z, Bullet[i]->size,
-					Bullet[i]->color.r, Bullet[i]->color.g, Bullet[i]->color.b, Bullet[i]->color.a, 0.3f);
-			}
-			else if (Bullet[i]->type == OBJECT_ARROW)
-			{
-				m_Renderer->DrawSolidRect(Bullet[i]->m.x, Bullet[i]->m.y, Bullet[i]->m.z, Bullet[i]->size,
-					Bullet[i]->color.r, Bullet[i]->color.g, Bullet[i]->color.b, Bullet[i]->color.a, 0.3f);
-			}
+			m_Renderer->DrawSolidRect(Bullet[i]->m.x, Bullet[i]->m.y, Bullet[i]->m.z, Bullet[i]->size,
+				Bullet[i]->color.r, Bullet[i]->color.g, Bullet[i]->color.b, Bullet[i]->color.a, 0.3f);
 		}
 	}
 }
@@ -220,8 +242,8 @@ void SceneMgr::Update(float time)
 								Bullet[i]->setSize(4);
 								Bullet[i]->setDirection((rand() % 3) - 1, -1, 0);
 								Bullet[i]->setSpeed(600);
-								Bullet[i]->life = 20;
-								Bullet[i]->lifetime = 10;
+								Bullet[i]->life = 15;
+								Bullet[i]->lifetime = 15;
 								Bullet[i]->TeamNum = BLACK;
 								Bullet[i]->Damage = m_objects[j]->life;
 							}
@@ -233,8 +255,8 @@ void SceneMgr::Update(float time)
 								Bullet[i]->setSize(4);
 								Bullet[i]->setDirection((rand() % 3) - 1, 1, 0);
 								Bullet[i]->setSpeed(600);
-								Bullet[i]->life = 20;
-								Bullet[i]->lifetime = 10;
+								Bullet[i]->life = 15;
+								Bullet[i]->lifetime = 15;
 								Bullet[i]->TeamNum = WHITE;
 								Bullet[i]->Damage = m_objects[j]->life;
 							}
@@ -249,24 +271,41 @@ void SceneMgr::Update(float time)
 
 	//적생성
 	EnemySpawnTime += time;
-	if (EnemySpawnTime > 3.0f)
+	if (EnemySpawnTime > 0.5f)
 	{
+		int temp = 0;
 		for (int i = 0; i < MAX_OBJECTS_COUNT; ++i)
 		{
-			if (m_objects[i] == NULL)
+			if (m_objects[i] != NULL)
 			{
-				m_objects[i] = new Object((rand() % 500) - 250, 400 - (rand() % 400), 0, OBJECT_CHARACTER);
-				m_objects[i]->setSize(30);
-				m_objects[i]->setDirection((rand() % 3) - 1, -1, 0);
-				if (m_objects[i] != NULL)
-					m_objects[i]->setColor(1, 0, 0, 1);
-				m_objects[i]->setSpeed(300);
-				m_objects[i]->life = 10;
-				m_objects[i]->TeamNum = BLACK;
-				break;
+				if (m_objects[i]->type == OBJECT_CHARACTER)
+				{
+					if (m_objects[i]->TeamNum == BLACK)
+					{
+						temp++;
+					}
+				}
 			}
 		}
-		EnemySpawnTime = 0;
+		if (temp < 10)
+		{
+			for (int i = 0; i < MAX_OBJECTS_COUNT; ++i)
+			{
+				if (m_objects[i] == NULL)
+				{
+					m_objects[i] = new Object((rand() % 500) - 250, 400 - (rand() % 400), 0, OBJECT_CHARACTER);
+					m_objects[i]->setSize(30);
+					m_objects[i]->setDirection((rand() % 3) - 1, -1, 0);
+					if (m_objects[i] != NULL)
+						m_objects[i]->setColor(1, 0, 0, 1);
+					m_objects[i]->setSpeed(300);
+					m_objects[i]->life = 100;
+					m_objects[i]->TeamNum = BLACK;
+					break;
+				}
+			}
+			EnemySpawnTime = 0;
+		}
 	}
 
 	//화살 생성
@@ -285,7 +324,7 @@ void SceneMgr::Update(float time)
 							Bullet[i] = new Object(m_objects[j]->m.x - 10, m_objects[j]->m.y - 10, 0, OBJECT_ARROW);
 							if (Bullet[i] != NULL)
 								Bullet[i]->setColor(1, 1, 0, 1);
-							Bullet[i]->setSize(5);
+							Bullet[i]->setSize(4);
 							Bullet[i]->setDirection((rand() % 3) - 1, 1, 0);
 							Bullet[i]->setSpeed(100);
 							Bullet[i]->lifetime = 10;
@@ -300,7 +339,7 @@ void SceneMgr::Update(float time)
 							Bullet[i] = new Object(m_objects[j]->m.x - 10, m_objects[j]->m.y - 10, 0, OBJECT_ARROW);
 							if (Bullet[i] != NULL)
 								Bullet[i]->setColor(0.5f, 0.2f, 0.7f, 1.0f);
-							Bullet[i]->setSize(5);
+							Bullet[i]->setSize(4);
 							Bullet[i]->setDirection((rand() % 3) - 1, -1, 0);
 							Bullet[i]->setSpeed(100);
 							Bullet[i]->lifetime = 10;
@@ -316,26 +355,32 @@ void SceneMgr::Update(float time)
 		}
 	}
 
+
+	//플레이어 캐릭터생성 쿨타임
 	PlayerCharacterSpawnTime += time;
 	if (PlayerCharacterSpawnTime > 0.5f)
 	{
-		if(PlayerCharacterSpawnCount < 10)
+		int temp = 0;
+		for (int i = 0; i < MAX_OBJECTS_COUNT; ++i)
+		{
+			if (m_objects[i] != NULL)
+			{
+				if (m_objects[i]->type == OBJECT_CHARACTER)
+				{
+					if (m_objects[i]->TeamNum == WHITE)
+					{
+						if(temp < 10)
+							temp++;
+					}
+				}
+			}
+		}
+		if(temp < 10)
 			PlayerCharacterSpawnCount += 1;
+		cout << temp << endl;
 		PlayerCharacterSpawnTime = 0.0f;
 	}
 
-	////y 영역 화면에서 넘어갈 시 Character삭제
-	//for (int i = 0; i < MAX_OBJECTS_COUNT; ++i)
-	//{
-	//	if (m_objects[i] != NULL)
-	//	{
-	//		if (m_objects[i]->m.y + (m_objects[i]->size / 2) > 400 || m_objects[i]->m.y - (m_objects[i]->size / 2) < -400)
-	//		{
-	//			delete m_objects[i];
-	//			m_objects[i] = NULL;
-	//		}
-	//	}
-	//}
 
 	//화면에서 넘어갈 시 Bullet, Arrow 삭제
 	for (int i = 0; i < MAX_BULLET_COUNT; ++i)
@@ -371,7 +416,19 @@ void SceneMgr::Colistion()
 							m_objects[j]->life -= m_objects[i]->life;
 							delete m_objects[i];
 							m_objects[i] = NULL;
+							if (m_objects[j] != NULL)
+							{
+								if(m_objects[j]->TeamNum == BLACK)
+									m_objects[j]->setColor(1.0f, 0.0f, 0.0f, 1.0f);
+								else
+									m_objects[j]->setColor(0.0f, 0.0f, 1.0f, 1.0f);
+							}
 							break;
+						}
+						else
+						{
+							if(m_objects[j]!=NULL)
+								m_objects[j]->setColor(1.0f, 1.0f, 1.0f, 1.0f);
 						}
 					}
 				}
@@ -397,14 +454,42 @@ void SceneMgr::Colistion()
 							Bullet[j] = NULL;
 							break;
 						}
+						
+					}
+				}
+			}
+		}
+	}
+
+	//Bullet <-> Building Collision
+	for (int i = 0; i < MAX_OBJECTS_COUNT; ++i)
+	{
+		for (int j = 0; j < MAX_BULLET_COUNT; ++j)
+		{
+			if (i != j && m_objects[i] != NULL && Bullet[j] != NULL)
+			{
+				if (m_objects[i]->type == OBJECT_BUILDING && Bullet[j]->type == OBJECT_BULLET)
+				{
+					if ((m_objects[i]->TeamNum == BLACK && Bullet[j]->TeamNum == WHITE) || (m_objects[i]->TeamNum == WHITE && Bullet[j]->TeamNum == BLACK))
+					{
+						if (ObjectsColistion(m_objects[i], Bullet[j]))
+						{
+							m_objects[i]->life -= Bullet[j]->life;
+							delete Bullet[j];
+							Bullet[j] = NULL;
+							if (m_objects[i] != NULL)
+							{
+								if(m_objects[i]->TeamNum == BLACK)
+									m_objects[i]->setColor(1.0f, 0.0f, 0.0f, 1.0f);
+								else
+									m_objects[i]->setColor(0.0f, 0.0f, 1.0f, 1.0f);
+							}
+							break;
+						}
 						else
 						{
-							if (m_objects[i]->TeamNum == BLACK)
-								if (m_objects[i] != NULL)
-									m_objects[i]->setColor(1.0f, 0.0f, 0.0f, 1.0f);
-							else
-								if (m_objects[i] != NULL)
-									m_objects[i]->setColor(0.0f, 0.0f, 1.0f, 1.0f);
+							if (m_objects[i] != NULL)
+								m_objects[i]->setColor(1.0f, 1.0f, 1.0f, 1.0f);
 						}
 					}
 				}
@@ -430,22 +515,6 @@ void SceneMgr::Colistion()
 							Bullet[j] = NULL;
 							break;
 						}
-						else
-						{
-							if (m_objects[i]->TeamNum == BLACK)
-								if (m_objects[i] != NULL)
-									m_objects[i]->setColor(1.0f, 0.0f, 0.0f, 1.0f);
-							else
-								if (m_objects[i] != NULL)
-									m_objects[i]->setColor(0.0f, 0.0f, 1.0f, 1.0f);
-
-							if (Bullet[j]->TeamNum == BLACK)
-								if (Bullet[j] != NULL)
-									Bullet[j]->setColor(0.5f, 0.2f, 0.7f, 1.0f);
-							else
-								if (Bullet[j] != NULL)
-									Bullet[j]->setColor(1, 1, 0, 1);
-						}
 					}
 				}
 			}
@@ -468,16 +537,19 @@ void SceneMgr::Colistion()
 							m_objects[i]->life -= Bullet[j]->life;
 							delete Bullet[j];
 							Bullet[j] = NULL;
+							if (m_objects[i] != NULL)
+							{
+								if(m_objects[i]->TeamNum == BLACK)
+									m_objects[i]->setColor(1.0f, 0.0f, 0.0f, 1.0f);
+								else
+									m_objects[i]->setColor(0.0f, 0.0f, 1.0f, 1.0f);
+							}
 							break;
 						}
 						else
 						{
-							if (Bullet[j]->TeamNum == BLACK)
-								if (Bullet[j] != NULL)
-									Bullet[j]->setColor(0.5f, 0.2f, 0.7f, 1.0f);
-							else
-								if (Bullet[j] != NULL)
-									Bullet[j]->setColor(1, 1, 0, 1);
+							if (m_objects[i] != NULL)
+								m_objects[i]->setColor(1.0f, 1.0f, 1.0f, 1.0f);
 						}
 					}
 				}
@@ -526,7 +598,7 @@ void SceneMgr::Addobject(int x, int y)
 					if (m_objects[i] != NULL)
 						m_objects[i]->setColor(0.0f, 0.0f, 1.0f, 1);
 					m_objects[i]->setSpeed(300);
-					m_objects[i]->life = 10;
+					m_objects[i]->life = 100;
 					m_objects[i]->TeamNum = WHITE;
 					PlayerCharacterSpawnCount -= 1;
 					break;
