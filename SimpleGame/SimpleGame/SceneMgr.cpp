@@ -28,7 +28,7 @@ void SceneMgr::Init()
 	m_texPlayerBuilding = m_Renderer->CreatePngTexture("./Textures/PNGs/PlayerBuilding.png");
 	m_texEnemyBuilding = m_Renderer->CreatePngTexture("./Textures/PNGs/EnemyBuliding.png");
 	m_texBackGround = m_Renderer->CreatePngTexture("./Textures/PNGs/Background.png");
-	m_texPlayerCharacter = m_Renderer->CreatePngTexture("./Textures/PNGs/Char.png");
+	m_texPlayerCharacter = m_Renderer->CreatePngTexture("./Textures/PNGs/Character.png");
 	m_texParticle = m_Renderer->CreatePngTexture("./Textures/PNGs/CircleParticle.png");
 
 	CreateBuliding();
@@ -131,12 +131,12 @@ void SceneMgr::DrawAllObjects()
 				if (m_objects[i]->TeamNum == BLACK)
 				{
 					m_Renderer->DrawTexturedRectSeq(m_objects[i]->m.x, m_objects[i]->m.y, m_objects[i]->m.z, m_objects[i]->size,
-						m_objects[i]->color.r, m_objects[i]->color.g, m_objects[i]->color.b, m_objects[i]->color.a, m_texPlayerCharacter, m_objects[i]->AnimationCount % 6, 1, 6, 7, 0.2f);
+						m_objects[i]->color.r, m_objects[i]->color.g, m_objects[i]->color.b, m_objects[i]->color.a, m_texPlayerCharacter, m_objects[i]->AnimationCount % 5, 1, 5, 2, 0.2f);
 				}
 				else
 				{
 					m_Renderer->DrawTexturedRectSeq(m_objects[i]->m.x, m_objects[i]->m.y, m_objects[i]->m.z, m_objects[i]->size,
-						m_objects[i]->color.r, m_objects[i]->color.g, m_objects[i]->color.b, m_objects[i]->color.a, m_texPlayerCharacter, m_objects[i]->AnimationCount % 6, 3, 6, 7, 0.2f);
+						m_objects[i]->color.r, m_objects[i]->color.g, m_objects[i]->color.b, m_objects[i]->color.a, m_texPlayerCharacter, m_objects[i]->AnimationCount % 5, 0, 5, 2, 0.2f);
 				}
 				m_Renderer->DrawSolidRectGauge(m_objects[i]->m.x, m_objects[i]->m.y + 20, m_objects[i]->m.z, 30, 5,
 					m_objects[i]->color.r, m_objects[i]->color.g, m_objects[i]->color.b, m_objects[i]->color.a, m_objects[i]->life / 10.0f, 0.2f);
