@@ -32,11 +32,14 @@ private:
 	Renderer* m_Renderer;
 	float BuildingTime;
 	float EnemySpawnTime;
+	float ParticleTime;
 	unsigned int m_texEnemyBuilding;
 	unsigned int m_texEnemyCharacter;
 	unsigned int m_texPlayerBuilding;
 	unsigned int m_texPlayerCharacter;
 	unsigned int m_texBackGround;
+	unsigned int m_texParticle;
+
 	int PlayerCharacterSpawnCount;
 	float PlayerCharacterSpawnTime;
 public:
@@ -45,6 +48,7 @@ public:
 public:
 	SceneMgr();
 	SceneMgr(int w, int h);
+	void Init();
 	void CreateBuliding();
 	Object** GetObjects();
 	void DrawAllObjects();

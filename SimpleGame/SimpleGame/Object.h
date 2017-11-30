@@ -35,6 +35,8 @@ public:
 	int collisioncount;
 	int Damage;
 	int TeamNum;
+	int AnimationCount;
+	float AnimationTime;
 	float ArrowSpawnTime;
 public:
 	Object();

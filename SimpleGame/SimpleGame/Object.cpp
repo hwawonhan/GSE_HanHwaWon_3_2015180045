@@ -4,6 +4,7 @@
 
 Object::Object() : m(0,0,0), size(10)
 {
+	AnimationTime = 0;
 }
 
 Object::Object(float x, float y, float z, int _type)
@@ -18,6 +19,8 @@ Object::Object(float x, float y, float z, int _type)
 	type = _type;
 	collisioncount = 0;
 	ArrowSpawnTime = 0;
+	AnimationCount = 0; 
+	AnimationTime = 0;
 	Damage = 1;
 }
 
@@ -32,7 +35,9 @@ Object::Object(float x, float y, float z, int _size, int _type)
 	lifetime = 10;
 	type = _type;
 	collisioncount = 0;
-	ArrowSpawnTime = 0;
+	AnimationCount = 0;
+	ArrowSpawnTime = 0; 
+	AnimationTime = 0;
 	Damage = 1;
 }
 
@@ -111,6 +116,13 @@ void Object::Update(float time)
 	m.z += Direction.z * speed* time;
 	lifetime -= time;
 	ArrowSpawnTime += time;
+
+	AnimationTime += time;
+	if (AnimationTime > 0.1f)
+	{
+		AnimationCount += 1;
+		AnimationTime = 0;
+	}
 	if (m.x + (size / 2) > 250 || m.x - (size / 2) < -250)
 	{
 		Direction.x *= -1;

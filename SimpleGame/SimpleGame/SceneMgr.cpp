@@ -5,29 +5,17 @@
 SceneMgr::SceneMgr()
 {
 	m_Renderer = new Renderer(500, 800);
-	BuildingTime = 0;
-	if (!m_Renderer->IsInitialized())
-	{
-		cout << "Renderer could not be initialized.. \n";
-	}
-	for (int i = 0; i < MAX_OBJECTS_COUNT; ++i)
-		m_objects[i] = NULL;
-	for (int i = 0; i < MAX_BULLET_COUNT; ++i)
-		Bullet[i] = NULL;
-
-	m_texPlayerBuilding = m_Renderer->CreatePngTexture("./Textures/PNGs/PlayerBuilding.png");
-	m_texEnemyBuilding = m_Renderer->CreatePngTexture("./Textures/PNGs/EnemyBuliding.png");
-	m_texBackGround = m_Renderer->CreatePngTexture("./Textures/PNGs/Background.png");
-	m_texPlayerCharacter = m_Renderer->CreatePngTexture("./Textures/PNGs/PlayerChar.png");
-	m_texEnemyCharacter = m_Renderer->CreatePngTexture("./Textures/PNGs/EnemyChar.png");
-	PlayerCharacterSpawnCount = 1;
-	CreateBuliding();
+	Init();
 }
 
 SceneMgr::SceneMgr(int w, int h)
 {
 	m_Renderer = new Renderer(w, h);
-	BuildingTime = 0;
+	Init();
+}
+
+void SceneMgr::Init()
+{
 	if (!m_Renderer->IsInitialized())
 	{
 		cout << "Renderer could not be initialized.. \n";
@@ -40,11 +28,14 @@ SceneMgr::SceneMgr(int w, int h)
 	m_texPlayerBuilding = m_Renderer->CreatePngTexture("./Textures/PNGs/PlayerBuilding.png");
 	m_texEnemyBuilding = m_Renderer->CreatePngTexture("./Textures/PNGs/EnemyBuliding.png");
 	m_texBackGround = m_Renderer->CreatePngTexture("./Textures/PNGs/Background.png");
-	m_texPlayerCharacter = m_Renderer->CreatePngTexture("./Textures/PNGs/PlayerChar.png");
-	m_texEnemyCharacter = m_Renderer->CreatePngTexture("./Textures/PNGs/EnemyChar.png");
-	PlayerCharacterSpawnCount = 1;
+	m_texPlayerCharacter = m_Renderer->CreatePngTexture("./Textures/PNGs/Char.png");
+	m_texParticle = m_Renderer->CreatePngTexture("./Textures/PNGs/CircleParticle.png");
 
 	CreateBuliding();
+
+	PlayerCharacterSpawnCount = 1;
+	BuildingTime = 0;
+	ParticleTime = 0;
 }
 
 void SceneMgr::CreateBuliding()
@@ -115,7 +106,7 @@ Object** SceneMgr::GetObjects()
 void SceneMgr::DrawAllObjects()
 {
 	m_Renderer->DrawTexturedRect(0, 0, 0, 800,
-		1, 1, 1, 1, m_texBackGround, 0.5f);
+		1, 1, 1, 1, m_texBackGround, 0.9f);
 	for (int i = 0; i < MAX_OBJECTS_COUNT; ++i)
 	{
 		if (m_objects[i] != NULL)
@@ -126,24 +117,28 @@ void SceneMgr::DrawAllObjects()
 				{
 					m_Renderer->DrawTexturedRect(m_objects[i]->m.x, m_objects[i]->m.y, m_objects[i]->m.z, m_objects[i]->size,
 						m_objects[i]->color.r, m_objects[i]->color.g, m_objects[i]->color.b, 1.0f, m_texEnemyBuilding, 0.1f);
-					m_Renderer->DrawSolidRectGauge(m_objects[i]->m.x, m_objects[i]->m.y + m_objects[i]->size/2 + 5, m_objects[i]->m.z, m_objects[i]->size, 5, 1, 0, 0, 1, m_objects[i]->life/500.0f, 0.1f);
+					m_Renderer->DrawSolidRectGauge(m_objects[i]->m.x, m_objects[i]->m.y + m_objects[i]->size / 2 + 5, m_objects[i]->m.z, m_objects[i]->size, 5, 1, 0, 0, 1, m_objects[i]->life / 500.0f, 0.1f);
 				}
 				else
 				{
 					m_Renderer->DrawTexturedRect(m_objects[i]->m.x, m_objects[i]->m.y, m_objects[i]->m.z, m_objects[i]->size,
 						m_objects[i]->color.r, m_objects[i]->color.g, m_objects[i]->color.b, 1.0f, m_texPlayerBuilding, 0.1f);
-					m_Renderer->DrawSolidRectGauge(m_objects[i]->m.x, m_objects[i]->m.y + m_objects[i]->size/2 + 5, m_objects[i]->m.z, m_objects[i]->size, 5, 0, 0, 1, 1, m_objects[i]->life / 500.0f, 0.1f);
+					m_Renderer->DrawSolidRectGauge(m_objects[i]->m.x, m_objects[i]->m.y + m_objects[i]->size / 2 + 5, m_objects[i]->m.z, m_objects[i]->size, 5, 0, 0, 1, 1, m_objects[i]->life / 500.0f, 0.1f);
 				}
 			}
 			else
 			{
-				if(m_objects[i]->TeamNum == BLACK)
-					m_Renderer->DrawTexturedRect(m_objects[i]->m.x, m_objects[i]->m.y, m_objects[i]->m.z, m_objects[i]->size,
-						1.0f, 1.0f, 1.0f, 1.0f, m_texEnemyCharacter, 0.2f);
+				if (m_objects[i]->TeamNum == BLACK)
+				{
+					m_Renderer->DrawTexturedRectSeq(m_objects[i]->m.x, m_objects[i]->m.y, m_objects[i]->m.z, m_objects[i]->size,
+						m_objects[i]->color.r, m_objects[i]->color.g, m_objects[i]->color.b, m_objects[i]->color.a, m_texPlayerCharacter, m_objects[i]->AnimationCount % 6, 1, 6, 7, 0.2f);
+				}
 				else
-					m_Renderer->DrawTexturedRect(m_objects[i]->m.x, m_objects[i]->m.y, m_objects[i]->m.z, m_objects[i]->size,
-						1.0f, 1.0f, 1.0f, 1.0f, m_texPlayerCharacter, 0.2f);
-				m_Renderer->DrawSolidRectGauge(m_objects[i]->m.x, m_objects[i]->m.y + 20, m_objects[i]->m.z, 30, 5, 
+				{
+					m_Renderer->DrawTexturedRectSeq(m_objects[i]->m.x, m_objects[i]->m.y, m_objects[i]->m.z, m_objects[i]->size,
+						m_objects[i]->color.r, m_objects[i]->color.g, m_objects[i]->color.b, m_objects[i]->color.a, m_texPlayerCharacter, m_objects[i]->AnimationCount % 6, 3, 6, 7, 0.2f);
+				}
+				m_Renderer->DrawSolidRectGauge(m_objects[i]->m.x, m_objects[i]->m.y + 20, m_objects[i]->m.z, 30, 5,
 					m_objects[i]->color.r, m_objects[i]->color.g, m_objects[i]->color.b, m_objects[i]->color.a, m_objects[i]->life / 10.0f, 0.2f);
 			}
 		}
@@ -154,14 +149,20 @@ void SceneMgr::DrawAllObjects()
 	{
 		if (Bullet[i] != NULL)
 		{
+			if (Bullet[i]->type == OBJECT_BULLET)
+			{
+				m_Renderer->DrawParticle(Bullet[i]->m.x, Bullet[i]->m.y, Bullet[i]->m.z, Bullet[i]->size,
+					0.8f, 0.8f, 0.8f, 1.0f, -Bullet[i]->Direction.x, -Bullet[i]->Direction.y, m_texParticle, ParticleTime);
+			}
 			m_Renderer->DrawSolidRect(Bullet[i]->m.x, Bullet[i]->m.y, Bullet[i]->m.z, Bullet[i]->size,
 				Bullet[i]->color.r, Bullet[i]->color.g, Bullet[i]->color.b, Bullet[i]->color.a, 0.3f);
 		}
 	}
 }
-
 void SceneMgr::Update(float time)
 {
+	ParticleTime += time;
+	
 	//객체업데이트
 
 	//캐릭터 빌딩 업데이트
@@ -241,7 +242,7 @@ void SceneMgr::Update(float time)
 									Bullet[i]->setColor(1, 0, 0, 1);
 								Bullet[i]->setSize(4);
 								Bullet[i]->setDirection((rand() % 3) - 1, -1, 0);
-								Bullet[i]->setSpeed(600);
+								Bullet[i]->setSpeed(100);
 								Bullet[i]->life = 15;
 								Bullet[i]->lifetime = 15;
 								Bullet[i]->TeamNum = BLACK;
@@ -254,7 +255,7 @@ void SceneMgr::Update(float time)
 									Bullet[i]->setColor(0, 0, 1, 1);
 								Bullet[i]->setSize(4);
 								Bullet[i]->setDirection((rand() % 3) - 1, 1, 0);
-								Bullet[i]->setSpeed(600);
+								Bullet[i]->setSpeed(100);
 								Bullet[i]->life = 15;
 								Bullet[i]->lifetime = 15;
 								Bullet[i]->TeamNum = WHITE;
@@ -375,9 +376,11 @@ void SceneMgr::Update(float time)
 				}
 			}
 		}
-		if(temp < 10)
+		if (temp < 10)
+		{
 			PlayerCharacterSpawnCount += 1;
-		cout << temp << endl;
+			temp = 0;
+		}
 		PlayerCharacterSpawnTime = 0.0f;
 	}
 
