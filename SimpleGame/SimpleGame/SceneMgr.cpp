@@ -152,10 +152,15 @@ void SceneMgr::DrawAllObjects()
 			if (Bullet[i]->type == OBJECT_BULLET)
 			{
 				m_Renderer->DrawParticle(Bullet[i]->m.x, Bullet[i]->m.y, Bullet[i]->m.z, Bullet[i]->size,
-					0.8f, 0.8f, 0.8f, 1.0f, -Bullet[i]->Direction.x, -Bullet[i]->Direction.y, m_texParticle, ParticleTime);
+					Bullet[i]->color.r, 0.8f, 0.8f, 1.0f, -Bullet[i]->Direction.x, -Bullet[i]->Direction.y, m_texParticle, ParticleTime);
+				m_Renderer->DrawSolidRect(Bullet[i]->m.x, Bullet[i]->m.y, Bullet[i]->m.z, Bullet[i]->size,
+					Bullet[i]->color.r, 0.2f, 0.2f, 1.0f, 0.3f);
 			}
-			m_Renderer->DrawSolidRect(Bullet[i]->m.x, Bullet[i]->m.y, Bullet[i]->m.z, Bullet[i]->size,
-				Bullet[i]->color.r, Bullet[i]->color.g, Bullet[i]->color.b, Bullet[i]->color.a, 0.3f);
+			else
+			{
+				m_Renderer->DrawSolidRect(Bullet[i]->m.x, Bullet[i]->m.y, Bullet[i]->m.z, Bullet[i]->size,
+					Bullet[i]->color.r, Bullet[i]->color.g, Bullet[i]->color.b, Bullet[i]->color.a, 0.3f);
+			}
 		}
 	}
 }
@@ -240,7 +245,7 @@ void SceneMgr::Update(float time)
 								Bullet[i] = new Object(m_objects[j]->m.x, m_objects[j]->m.y, m_objects[j]->m.z, OBJECT_BULLET);
 								if (Bullet[i] != NULL)
 									Bullet[i]->setColor(1, 0, 0, 1);
-								Bullet[i]->setSize(4);
+								Bullet[i]->setSize(5);
 								Bullet[i]->setDirection((rand() % 3) - 1, -1, 0);
 								Bullet[i]->setSpeed(100);
 								Bullet[i]->life = 15;
@@ -253,7 +258,7 @@ void SceneMgr::Update(float time)
 								Bullet[i] = new Object(m_objects[j]->m.x, m_objects[j]->m.y, m_objects[j]->m.z, OBJECT_BULLET);
 								if (Bullet[i] != NULL)
 									Bullet[i]->setColor(0, 0, 1, 1);
-								Bullet[i]->setSize(4);
+								Bullet[i]->setSize(5);
 								Bullet[i]->setDirection((rand() % 3) - 1, 1, 0);
 								Bullet[i]->setSpeed(100);
 								Bullet[i]->life = 15;
@@ -325,7 +330,7 @@ void SceneMgr::Update(float time)
 							Bullet[i] = new Object(m_objects[j]->m.x - 10, m_objects[j]->m.y - 10, 0, OBJECT_ARROW);
 							if (Bullet[i] != NULL)
 								Bullet[i]->setColor(1, 1, 0, 1);
-							Bullet[i]->setSize(4);
+							Bullet[i]->setSize(5);
 							Bullet[i]->setDirection((rand() % 3) - 1, 1, 0);
 							Bullet[i]->setSpeed(100);
 							Bullet[i]->lifetime = 10;
@@ -340,7 +345,7 @@ void SceneMgr::Update(float time)
 							Bullet[i] = new Object(m_objects[j]->m.x - 10, m_objects[j]->m.y - 10, 0, OBJECT_ARROW);
 							if (Bullet[i] != NULL)
 								Bullet[i]->setColor(0.5f, 0.2f, 0.7f, 1.0f);
-							Bullet[i]->setSize(4);
+							Bullet[i]->setSize(5);
 							Bullet[i]->setDirection((rand() % 3) - 1, -1, 0);
 							Bullet[i]->setSpeed(100);
 							Bullet[i]->lifetime = 10;
@@ -361,7 +366,8 @@ void SceneMgr::Update(float time)
 	PlayerCharacterSpawnTime += time;
 	if (PlayerCharacterSpawnTime > 0.5f)
 	{
-		int temp = 0;
+		//int temp = 0;
+		PlayerCharacterSpawnCount = 0;
 		for (int i = 0; i < MAX_OBJECTS_COUNT; ++i)
 		{
 			if (m_objects[i] != NULL)
@@ -370,21 +376,16 @@ void SceneMgr::Update(float time)
 				{
 					if (m_objects[i]->TeamNum == WHITE)
 					{
-						if(temp < 10)
-							temp++;
+						if (PlayerCharacterSpawnCount < 10)
+							PlayerCharacterSpawnCount++;
 					}
 				}
 			}
 		}
-		if (temp < 10)
-		{
-			PlayerCharacterSpawnCount += 1;
-			temp = 0;
-		}
 		PlayerCharacterSpawnTime = 0.0f;
 	}
-
-
+	
+	
 	//화면에서 넘어갈 시 Bullet, Arrow 삭제
 	for (int i = 0; i < MAX_BULLET_COUNT; ++i)
 	{
