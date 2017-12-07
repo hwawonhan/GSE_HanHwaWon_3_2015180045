@@ -3,6 +3,7 @@
 #include "Renderer.h"
 #include "Dependencies\glew.h"
 #include "Dependencies\freeglut.h"
+#include "Sound.h"
 #include <list>
 
 using namespace std;
@@ -30,6 +31,10 @@ class SceneMgr
 {
 private:
 	Renderer* m_Renderer;
+	Sound* m_Sound;
+	int BGsound;
+	int Shootsound;
+	int Bulidingsound;
 	float BuildingTime;
 	float EnemySpawnTime;
 	float ParticleTime;

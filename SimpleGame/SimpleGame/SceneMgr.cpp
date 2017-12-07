@@ -16,6 +16,11 @@ SceneMgr::SceneMgr(int w, int h)
 
 void SceneMgr::Init()
 {
+	m_Sound = new Sound();
+	BGsound = m_Sound->CreateSound("./Sounds/111.mp3");
+	Shootsound = m_Sound->CreateSound("./Sounds/Shot.wav");
+	Bulidingsound = m_Sound->CreateSound("./Sounds/crush.wav");
+	m_Sound->PlaySound(BGsound, true, 0.2f);
 	if (!m_Renderer->IsInitialized())
 	{
 		cout << "Renderer could not be initialized.. \n";
@@ -107,6 +112,7 @@ void SceneMgr::DrawAllObjects()
 {
 	m_Renderer->DrawTexturedRect(0, 0, 0, 800,
 		1, 1, 1, 1, m_texBackGround, 0.9f);
+	
 	for (int i = 0; i < MAX_OBJECTS_COUNT; ++i)
 	{
 		if (m_objects[i] != NULL)
@@ -163,6 +169,9 @@ void SceneMgr::DrawAllObjects()
 			}
 		}
 	}
+
+	m_Renderer->DrawText(-40.0f, 380.0f, GLUT_BITMAP_9_BY_15, 0.0f, 0.0f,1.0f, "RED TEAM");
+	m_Renderer->DrawText(-40.0f, -380.0f, GLUT_BITMAP_9_BY_15, 1.0f, 0.0f, 0.0f, "BLUE TEAM");
 }
 void SceneMgr::Update(float time)
 {
@@ -189,6 +198,10 @@ void SceneMgr::Update(float time)
 		{
 			if (m_objects[i]->life < 0)
 			{
+				if (m_objects[i]->type == OBJECT_BUILDING)
+				{
+					m_Sound->PlaySound(Bulidingsound, false, 0.1f);
+				}
 				delete m_objects[i];
 				m_objects[i] = NULL;
 			}
@@ -240,6 +253,7 @@ void SceneMgr::Update(float time)
 					{
 						if (m_objects[j]->type == OBJECT_BUILDING)
 						{
+							m_Sound->PlaySound(Shootsound, false, 0.01f);
 							if (m_objects[j]->TeamNum == BLACK)
 							{
 								Bullet[i] = new Object(m_objects[j]->m.x, m_objects[j]->m.y, m_objects[j]->m.z, OBJECT_BULLET);
@@ -366,8 +380,7 @@ void SceneMgr::Update(float time)
 	PlayerCharacterSpawnTime += time;
 	if (PlayerCharacterSpawnTime > 0.5f)
 	{
-		//int temp = 0;
-		PlayerCharacterSpawnCount = 0;
+		int live = 0;
 		for (int i = 0; i < MAX_OBJECTS_COUNT; ++i)
 		{
 			if (m_objects[i] != NULL)
@@ -376,15 +389,18 @@ void SceneMgr::Update(float time)
 				{
 					if (m_objects[i]->TeamNum == WHITE)
 					{
-						if (PlayerCharacterSpawnCount < 10)
-							PlayerCharacterSpawnCount++;
+						live++;
 					}
 				}
 			}
 		}
+		if (live < 10)
+			if (PlayerCharacterSpawnCount < 10)
+				PlayerCharacterSpawnCount += 1;
 		PlayerCharacterSpawnTime = 0.0f;
 	}
-	
+	printf("%d\n", PlayerCharacterSpawnCount);
+
 	
 	//화면에서 넘어갈 시 Bullet, Arrow 삭제
 	for (int i = 0; i < MAX_BULLET_COUNT; ++i)
