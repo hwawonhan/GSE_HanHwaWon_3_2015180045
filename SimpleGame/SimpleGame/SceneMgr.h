@@ -13,19 +13,6 @@ using namespace std;
 
 
 
-enum TEAMNUMBER
-{
-	BLACK = 0,
-	WHITE = 1,
-};
-
-enum objecttype {
-	OBJECT_BUILDING,
-	OBJECT_CHARACTER,
-	OBJECT_BULLET,
-	OBJECT_ARROW,
-};
-
 class Renderer;
 class SceneMgr
 {

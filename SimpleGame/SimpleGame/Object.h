@@ -1,5 +1,18 @@
 #pragma once
 
+
+enum TEAMNUMBER
+{
+	BLACK = 0,
+	WHITE = 1,
+};
+
+enum objecttype {
+	OBJECT_BUILDING,
+	OBJECT_CHARACTER,
+	OBJECT_BULLET,
+	OBJECT_ARROW,
+};
 struct Color
 {
 	float r, g, b, a;
@@ -38,6 +51,9 @@ public:
 	int AnimationCount;
 	float AnimationTime;
 	float ArrowSpawnTime;
+	float ParticlelifeTime;
+	float particletime;
+	bool disapearPoint;
 public:
 	Object();
 	Object(float x, float y, float z, int _tpye);
@@ -53,7 +69,7 @@ public:
 	void setSpeed(float s);
 	void setLifeTime(float time);
 	void setLife(float _life);
-
+	void setParticleLifeTime(float t);
 	int getsize();
 	float getlifetime();
 	void getPosition(Vector3& v);

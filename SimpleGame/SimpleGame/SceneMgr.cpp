@@ -103,6 +103,8 @@ void SceneMgr::CreateBuliding()
 	
 }
 
+
+
 Object** SceneMgr::GetObjects()
 {
 	return m_objects;
@@ -112,7 +114,8 @@ void SceneMgr::DrawAllObjects()
 {
 	m_Renderer->DrawTexturedRect(0, 0, 0, 800,
 		1, 1, 1, 1, m_texBackGround, 0.9f);
-	
+	m_Renderer->DrawParticleClimate(0, 0, 0, 0.9f, 1, 1, 1, 0.5f, -1, -1, m_texParticle, ParticleTime, 0.01f);
+
 	for (int i = 0; i < MAX_OBJECTS_COUNT; ++i)
 	{
 		if (m_objects[i] != NULL)
@@ -157,10 +160,20 @@ void SceneMgr::DrawAllObjects()
 		{
 			if (Bullet[i]->type == OBJECT_BULLET)
 			{
-				m_Renderer->DrawParticle(Bullet[i]->m.x, Bullet[i]->m.y, Bullet[i]->m.z, Bullet[i]->size,
-					Bullet[i]->color.r, 0.8f, 0.8f, 1.0f, -Bullet[i]->Direction.x, -Bullet[i]->Direction.y, m_texParticle, ParticleTime);
-				m_Renderer->DrawSolidRect(Bullet[i]->m.x, Bullet[i]->m.y, Bullet[i]->m.z, Bullet[i]->size,
-					Bullet[i]->color.r, 0.2f, 0.2f, 1.0f, 0.3f);
+				if (Bullet[i]->TeamNum == WHITE)
+				{
+					m_Renderer->DrawParticle(Bullet[i]->m.x, Bullet[i]->m.y, Bullet[i]->m.z, Bullet[i]->size,
+						0.2f, 0.8f, Bullet[i]->color.b, Bullet[i]->color.a, -Bullet[i]->Direction.x, -Bullet[i]->Direction.y, m_texParticle, Bullet[i]->particletime, 0.3f);
+					m_Renderer->DrawSolidRect(Bullet[i]->m.x, Bullet[i]->m.y, Bullet[i]->m.z, Bullet[i]->size,
+						Bullet[i]->color.r, Bullet[i]->color.g, Bullet[i]->color.b, 1.0f, 0.3f);
+				}
+				else
+				{
+					m_Renderer->DrawParticle(Bullet[i]->m.x, Bullet[i]->m.y, Bullet[i]->m.z, Bullet[i]->size,
+						Bullet[i]->color.r, 0.2, 0.8f , Bullet[i]->color.a, -Bullet[i]->Direction.x, -Bullet[i]->Direction.y, m_texParticle, Bullet[i]->particletime, 0.3f);
+					m_Renderer->DrawSolidRect(Bullet[i]->m.x, Bullet[i]->m.y, Bullet[i]->m.z, Bullet[i]->size,
+						Bullet[i]->color.r, Bullet[i]->color.g, Bullet[i]->color.b, 1.0f, 0.3f);
+				}
 			}
 			else
 			{
@@ -176,7 +189,6 @@ void SceneMgr::DrawAllObjects()
 void SceneMgr::Update(float time)
 {
 	ParticleTime += time;
-	
 	//객체업데이트
 
 	//캐릭터 빌딩 업데이트
@@ -265,6 +277,8 @@ void SceneMgr::Update(float time)
 								Bullet[i]->life = 15;
 								Bullet[i]->lifetime = 15;
 								Bullet[i]->TeamNum = BLACK;
+								Bullet[i]->setParticleLifeTime(0);
+								Bullet[i]->disapearPoint = true;
 								Bullet[i]->Damage = m_objects[j]->life;
 							}
 							else if (m_objects[j]->TeamNum == WHITE)
@@ -278,6 +292,8 @@ void SceneMgr::Update(float time)
 								Bullet[i]->life = 15;
 								Bullet[i]->lifetime = 15;
 								Bullet[i]->TeamNum = WHITE;
+								Bullet[i]->disapearPoint = true;
+								Bullet[i]->setParticleLifeTime(0);
 								Bullet[i]->Damage = m_objects[j]->life;
 							}
 						}
@@ -399,7 +415,6 @@ void SceneMgr::Update(float time)
 				PlayerCharacterSpawnCount += 1;
 		PlayerCharacterSpawnTime = 0.0f;
 	}
-	printf("%d\n", PlayerCharacterSpawnCount);
 
 	
 	//화면에서 넘어갈 시 Bullet, Arrow 삭제

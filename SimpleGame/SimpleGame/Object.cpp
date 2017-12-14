@@ -1,4 +1,5 @@
 #include "stdafx.h"
+
 #include "Object.h"
 
 
@@ -22,6 +23,9 @@ Object::Object(float x, float y, float z, int _type)
 	AnimationCount = 0; 
 	AnimationTime = 0;
 	Damage = 1;
+	ParticlelifeTime = 0;
+	particletime = 0;
+	disapearPoint = false;
 }
 
 Object::Object(float x, float y, float z, int _size, int _type)
@@ -39,6 +43,9 @@ Object::Object(float x, float y, float z, int _size, int _type)
 	ArrowSpawnTime = 0; 
 	AnimationTime = 0;
 	Damage = 1;
+	ParticlelifeTime = 0;
+	particletime = 0;
+	disapearPoint = false;
 }
 
 Object::Object(Vector3 v, int _type) : m(v.x, v.y, v.z), size(10), speed(0.1f)
@@ -91,6 +98,12 @@ void Object::setLife(float _life)
 	life = _life;
 }
 
+void Object::setParticleLifeTime(float t)
+{
+	ParticlelifeTime = t;
+	
+}
+
 void Object::getPosition(Vector3& v)
 {
 	v.x = m.x;
@@ -130,6 +143,17 @@ void Object::Update(float time)
 	if (m.y + (size / 2) > 400 || m.y - (size / 2) < -400)
 	{
 		Direction.y *= -1;
+	}
+	if (type == OBJECT_BULLET)
+	{
+		if (disapearPoint)
+		{
+			particletime += time;
+			if (color.a > ParticlelifeTime)
+			{
+				color.a -= 0.001f;
+			}
+		}
 	}
 }
 
