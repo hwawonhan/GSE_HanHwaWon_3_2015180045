@@ -26,6 +26,7 @@ Object::Object(float x, float y, float z, int _type)
 	ParticlelifeTime = 0;
 	particletime = 0;
 	disapearPoint = false;
+	AnimationCountY = 0;
 }
 
 Object::Object(float x, float y, float z, int _size, int _type)
@@ -46,7 +47,9 @@ Object::Object(float x, float y, float z, int _size, int _type)
 	ParticlelifeTime = 0;
 	particletime = 0;
 	disapearPoint = false;
+	AnimationCountY = 0;
 }
+
 
 Object::Object(Vector3 v, int _type) : m(v.x, v.y, v.z), size(10), speed(0.1f)
 {
@@ -154,6 +157,10 @@ void Object::Update(float time)
 				color.a -= 0.001f;
 			}
 		}
+	}
+	if (type == OBJECT_SKILL)
+	{
+
 	}
 }
 

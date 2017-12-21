@@ -12,6 +12,7 @@ enum objecttype {
 	OBJECT_CHARACTER,
 	OBJECT_BULLET,
 	OBJECT_ARROW,
+	OBJECT_SKILL,
 };
 struct Color
 {
@@ -44,11 +45,12 @@ public:
 	float speed;
 	float lifetime;		//이시간이지나면 사라지게
 	float life;			//목숨갯수
-	int type;
+	int type;			//빌딩인지 캐릭터인지 뭔지
 	int collisioncount;
-	int Damage;
-	int TeamNum;
+	int Damage;			//공격력
+	int TeamNum;		//적팀인지 내팀인지
 	int AnimationCount;
+	int AnimationCountY;
 	float AnimationTime;
 	float ArrowSpawnTime;
 	float ParticlelifeTime;

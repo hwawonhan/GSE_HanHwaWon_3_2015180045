@@ -49,6 +49,17 @@ void MouseInput(int button, int state, int x, int y)			//GLUT_LEFT_BUTTON, GLUT_
 
 void KeyInput(unsigned char key, int x, int y)
 {
+	switch (key)
+	{
+	case 'q':
+		g_SceneMgr->PlayerCharSelect = 0;
+		break;
+	case 'w':
+		g_SceneMgr->PlayerCharSelect = 1;
+		break;
+	default:
+		break;
+	}
 	RenderScene();
 }
 

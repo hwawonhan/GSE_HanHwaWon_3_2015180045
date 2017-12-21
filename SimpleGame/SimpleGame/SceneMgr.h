@@ -19,22 +19,27 @@ class SceneMgr
 private:
 	Renderer* m_Renderer;
 	Sound* m_Sound;
+	int uisill;
 	int BGsound;
 	int Shootsound;
 	int Bulidingsound;
+	float skillpointguage;
+	int skillpoint;
 	float BuildingTime;
 	float EnemySpawnTime;
 	float ParticleTime;
+	float UiTime;
 	unsigned int m_texEnemyBuilding;
 	unsigned int m_texEnemyCharacter;
 	unsigned int m_texPlayerBuilding;
 	unsigned int m_texPlayerCharacter;
 	unsigned int m_texBackGround;
 	unsigned int m_texParticle;
-
-	int PlayerCharacterSpawnCount;
-	float PlayerCharacterSpawnTime;
+	unsigned int m_texSkill;
+	unsigned int m_texSkillPoint;
+	
 public:
+	int PlayerCharSelect;
 	Object* m_objects[MAX_OBJECTS_COUNT];
 	Object* Bullet[MAX_BULLET_COUNT];
 public:
