@@ -225,7 +225,7 @@ void SceneMgr::Update(float time)
 	}
 	ParticleTime += time;
 	//객체업데이트
-	skillpointguage += 0.02;
+	skillpointguage += time;
 	if (skillpointguage > 1.0f)
 	{
 		if (skillpoint < 10)

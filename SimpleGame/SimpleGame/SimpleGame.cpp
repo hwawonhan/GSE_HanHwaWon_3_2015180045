@@ -18,15 +18,32 @@ but WITHOUT ANY WARRANTY.
 #include "SceneMgr.h"
 
 SceneMgr* g_SceneMgr = NULL;
+Renderer* g_renderer = NULL;
 DWORD timer = timeGetTime();
+float t = 0;
+unsigned int texloading;
 void RenderScene(void)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(0.0f, 0.3f, 0.3f, 1.0f);
-	g_SceneMgr->DrawAllObjects();
 	DWORD p = timeGetTime() - timer;
 	timer = timeGetTime();
-	g_SceneMgr->Update((float)(p/1000.0f));
+	if (g_SceneMgr != NULL)
+	{
+		g_SceneMgr->DrawAllObjects();
+		g_SceneMgr->Update((float)(p / 1000.0f));
+	}
+	else
+	{
+		t += (p / 1000.0f);
+		g_renderer->DrawTexturedRect(0, 0, 0, 800, 1, 1, 1, 1, texloading, 0.1);
+		if (t > 3.0f)
+		{
+			delete g_renderer;
+			g_renderer = NULL;
+			g_SceneMgr = new SceneMgr(500, 800);
+		}
+	}
 	glutSwapBuffers();
 }
 
@@ -37,11 +54,14 @@ void Idle(void)
 
 void MouseInput(int button, int state, int x, int y)			//GLUT_LEFT_BUTTON, GLUT_DOWN, 
 {
-	if (button == GLUT_LEFT_BUTTON)
+	if (g_SceneMgr != NULL)
 	{
-		if (state == GLUT_UP)
+		if (button == GLUT_LEFT_BUTTON)
 		{
-			g_SceneMgr->Addobject(x - 250, 400 - y);
+			if (state == GLUT_UP)
+			{
+				g_SceneMgr->Addobject(x - 250, 400 - y);
+			}
 		}
 	}
 	RenderScene();
@@ -49,16 +69,19 @@ void MouseInput(int button, int state, int x, int y)			//GLUT_LEFT_BUTTON, GLUT_
 
 void KeyInput(unsigned char key, int x, int y)
 {
-	switch (key)
+	if (g_SceneMgr != NULL)
 	{
-	case 'q':
-		g_SceneMgr->PlayerCharSelect = 0;
-		break;
-	case 'w':
-		g_SceneMgr->PlayerCharSelect = 1;
-		break;
-	default:
-		break;
+		switch (key)
+		{
+		case 'q':
+			g_SceneMgr->PlayerCharSelect = 0;
+			break;
+		case 'w':
+			g_SceneMgr->PlayerCharSelect = 1;
+			break;
+		default:
+			break;
+		}
 	}
 	RenderScene();
 }
@@ -77,8 +100,8 @@ int main(int argc, char **argv)
 	glutInitWindowSize(500, 800);
 	glutCreateWindow("Game Software Engineering KPU 2015180045");
 	glewInit();
-	g_SceneMgr = new SceneMgr(500, 800);
-
+	g_renderer = new Renderer(500, 800);
+	texloading = g_renderer->CreatePngTexture("./Textures/PNGs/loading.png");
 	if (glewIsSupported("GL_VERSION_3_0"))
 	{
 		std::cout << " GLEW Version is 3.0\n ";
